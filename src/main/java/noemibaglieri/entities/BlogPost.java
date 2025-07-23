@@ -26,13 +26,19 @@ public class BlogPost {
 
     private String content;
 
+    @Column(name = "reading_time")
     private int readingTime;
 
-    public BlogPost(String category, String title, String content, int readingTime, String cover) {
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Author author;
+
+    public BlogPost(String category, String title, String content, int readingTime, String cover, Author author) {
         this.category = category;
         this.title = title;
         this.content = content;
         this.readingTime = readingTime;
         this.cover = cover;
+        this.author = author;
     }
 }

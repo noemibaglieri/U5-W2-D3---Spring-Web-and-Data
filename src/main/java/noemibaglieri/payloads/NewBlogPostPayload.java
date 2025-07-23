@@ -3,6 +3,7 @@ package noemibaglieri.payloads;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import noemibaglieri.entities.Author;
 
 @Getter
 @Setter
@@ -13,13 +14,15 @@ public class NewBlogPostPayload {
     private String title;
     private String content;
     private int readingTime;
+    private long author;
 
     @Override
     public String toString() {
         return "categoryType='" + category + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", readingTime=" + readingTime + " min";
+                ", readingTime=" + readingTime + " min" +
+                ", author=" + author;
     }
 
 }

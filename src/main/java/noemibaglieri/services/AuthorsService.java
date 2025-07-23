@@ -8,8 +8,6 @@ import noemibaglieri.payloads.NewAuthorPayload;
 import noemibaglieri.repositories.AuthorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -41,7 +39,7 @@ public class AuthorsService {
 
     public Author findByIdAndUpdate(long authorId, NewAuthorPayload payload) {
         Author found = this.findById(authorId);
-        if(found.getEmail().equals(payload.getEmail())) {
+        if(!found.getEmail().equals(payload.getEmail())) {
             this.authorsRepository.findByEmail(payload.getEmail()).ifPresent(author -> {
                 throw new BadRequestException("The email * " + author.getEmail() + " * is already in use!");
             });
