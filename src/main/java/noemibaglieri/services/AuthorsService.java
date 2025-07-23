@@ -36,38 +36,32 @@ public class AuthorsService {
     }
 
     public Author findById(long authorId) {
-        Author found = null;
-        for (Author author : this.authorsRepository.findAll()) {
-            if(author.getId() == authorId) found = author;
-        }
-
-        if (found == null) throw new NotFoundException("Author with id * " + authorId + " * was not found");
-
-        return found;
+       return this.authorsRepository.findById(authorId).orElseThrow(() -> new NotFoundException(authorId));
     }
 
     public Author findByIdAndUpdate(long authorId, NewAuthorPayload payload) {
-        Author found = null;
-        for (Author author : this.authorsRepository.findAll()) {
-            if (author.getId() == authorId) {
-                found = author;
-                found.setFirstName(payload.getFirstName());
-                found.setLastName(payload.getLastName());
-                found.setEmail(payload.getEmail());
-                found.setDateOfBirth(payload.getDateOfBirth());
-            }
+        Author found = this.findById(authorId);
+        if(found.getEmail().equals(payload.getEmail())) {
+            this.authorsRepository.findByEmail(payload.getEmail()).ifPresent(author -> {
+                throw new BadRequestException("The email * " + author.getEmail() + " * is already in use!");
+            });
         }
 
-        if(found == null) throw new NotFoundException("Author with id * " + authorId + " * was not found");
-        return found;
+        found.setFirstName(payload.getFirstName());
+        found.setLastName(payload.getLastName());
+        found.setEmail(payload.getEmail());
+        found.setDateOfBirth(payload.getDateOfBirth());
+        found.setAvatar("https://ui-avatars.com/api/?name=" + payload.getFirstName() + "+" + payload.getLastName());
+
+        Author editedAuthor = this.authorsRepository.save(found);
+
+        log.info("The author with id " + found.getId() + " was successfully updated");
+
+        return editedAuthor;
     }
 
-   /* public void findByIdAndDelete(long authorId) {
-        Author found = null;
-        for (Author author : this.authorsRepository.findAll()) {
-            if(author.getId() == authorId) found = author;
-        }
-        if(found == null) throw new NotFoundException("Author with id * " + authorId + " * was not found");
-        this.authorsRepository.remove(found);
-    }*/
+   public void findByIdAndDelete(long authorId) {
+        Author found = this.findById(authorId);
+        this.authorsRepository.delete(found);
+    }
 }

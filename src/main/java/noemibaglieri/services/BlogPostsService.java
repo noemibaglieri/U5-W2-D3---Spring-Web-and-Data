@@ -31,7 +31,7 @@ public class BlogPostsService {
             if(post.getId() == blogId) found = post;
         }
 
-        if (found == null) throw new NotFoundException("Post with id * " + blogId + " * was not found");
+        if (found == null) throw new NotFoundException(blogId);
 
         return found;
     }
@@ -48,7 +48,7 @@ public class BlogPostsService {
             }
         }
 
-        if(found == null) throw new NotFoundException("Post with id * " + blogId + " * was not found");
+        if(found == null) throw new NotFoundException(blogId);
         return found;
     }
 
@@ -57,7 +57,7 @@ public class BlogPostsService {
         for (BlogPost post : this.postsDB) {
             if(post.getId() == blogId) found = post;
         }
-        if(found == null) throw new NotFoundException("Post with id * " + blogId + " * was not found");
+        if(found == null) throw new NotFoundException(blogId);
         this.postsDB.remove(found);
     }
 }
