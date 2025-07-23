@@ -19,7 +19,7 @@ public class BlogPostsService {
     }
 
     public BlogPost save(NewBlogPostPayload payload) {
-        BlogPost newBlogPost = new BlogPost(payload.getCategoryType(), payload.getTitle(), payload.getContent(), payload.getReadingTime(), "https://picsum.photos/200/300");
+        BlogPost newBlogPost = new BlogPost(payload.getCategory(), payload.getTitle(), payload.getContent(), payload.getReadingTime(), "https://picsum.photos/200/300");
         this.postsDB.add(newBlogPost);
         log.info("Your blog post * " + newBlogPost.getTitle() + " * was successfully published");
         return newBlogPost;
@@ -43,7 +43,7 @@ public class BlogPostsService {
                 found = post;
                 found.setTitle(payload.getTitle());
                 found.setContent(payload.getContent());
-                found.setCategoryType(payload.getCategoryType());
+                found.setCategory(payload.getCategory());
                 found.setReadingTime(payload.getReadingTime());
             }
         }

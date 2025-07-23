@@ -36,11 +36,11 @@ public class AuthorsController {
     public Author getAuthorByIdAndUpdate(@RequestBody NewAuthorPayload body, @PathVariable long authorId) {
         return this.authorsService.findByIdAndUpdate(authorId, body);
     }
-
+/*
     @DeleteMapping("/{authorId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void getAuthorByIdAndDelete(@PathVariable long authorId) {
         this.authorsService.findByIdAndDelete(authorId);
     }
-
+*/
 }
